@@ -1,0 +1,1488 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Twellium Warehouse App</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  :root {
+    --bg: #f5f1e8;
+    --bg-2: #eef3f7;
+    --card: #ffffff;
+    --ink: #111827;
+    --muted: #566170;
+    --accent: #1f6f8b;
+    --accent-2: #f1a73f;
+    --header: #143c5b;
+    --stripe: #f7fafc;
+    --border: #d7e0ea;
+    --focus: #2b8a3e;
+    --success: #dcfce7;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 28px;
+    font-family: "Trebuchet MS", "Gill Sans", Calibri, sans-serif;
+    color: var(--ink);
+    background:
+      linear-gradient(120deg, rgba(241, 167, 63, 0.08), rgba(31, 111, 139, 0.08)),
+      repeating-linear-gradient(0deg, rgba(20, 60, 91, 0.04) 0, rgba(20, 60, 91, 0.04) 1px, transparent 1px, transparent 32px),
+      repeating-linear-gradient(90deg, rgba(20, 60, 91, 0.03) 0, rgba(20, 60, 91, 0.03) 1px, transparent 1px, transparent 32px),
+      radial-gradient(circle at top right, #f9f3e6 0%, #f5f1e8 45%, #eef3f7 100%);
+  }
+  #pages {
+    max-width: 1280px;
+    margin: 0 auto;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 22px;
+    box-shadow: 0 20px 45px rgba(15, 23, 42, 0.12);
+    animation: fadeIn 500ms ease-out;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  thead th {
+    background: var(--header);
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 10px;
+    border: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 2;
+  }
+  tbody td {
+    border: 1px solid var(--border);
+    padding: 8px;
+  }
+  tbody tr:nth-child(even) { background: var(--stripe); }
+  tbody tr:hover { background: #eef6ff; }
+  input[type="number"],
+  input[type="text"] {
+    width: 100%;
+    padding: 6px 8px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    background: #ffffff;
+    transition: border-color 150ms ease, box-shadow 150ms ease;
+  }
+  input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(31, 111, 139, 0.15);
+  }
+  input[readonly] {
+    background: #f3f6f9;
+    color: #1f2937;
+  }
+  button {
+    margin-top: 16px;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    color: #ffffff;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(31, 111, 139, 0.18);
+  }
+  button:hover { filter: brightness(1.04); }
+  button:active { transform: translateY(1px); }
+
+  #page2 table { table-layout: fixed; }
+  #page2 th.wide-col,
+  #page2 td.wide-col { width: 220px; }
+  #page2 th.small-col,
+  #page2 td.small-col { width: 70px; }
+  #page2 input { font-size: 12px; padding: 4px 6px; }
+  #page2 .cell-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  #page2 .waybill-input {
+    width: 100%;
+    font-size: 11px;
+    padding: 3px 6px;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    background: #f8fafc;
+  }
+  #page2 .row-total {
+    background: var(--success);
+    border-color: #86efac;
+    font-weight: 700;
+  }
+
+  .welcome {
+    text-align: center;
+    padding: 34px 20px 10px;
+  }
+  .welcome h1 {
+    margin: 0 0 10px;
+    font-size: 30px;
+    color: var(--header);
+    letter-spacing: 0.05em;
+  }
+  .welcome p {
+    margin: 0 0 20px;
+    color: var(--muted);
+  }
+    #page0.welcome {
+    position: relative;
+    background: url("C:/Users/ffantwi/Desktop/javascript-course/IMG_20251212_154408_905.jpg") center/cover no-repeat;
+    color: #f8fafc;
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  #page0.welcome::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.55);
+  }
+  #page0.welcome > * {
+    position: relative;
+    z-index: 1;
+  }
+  #page0.welcome h1 {
+    color: #ffffff;
+  }
+  #page0.welcome p {
+    color: #e2e8f0;
+  }\ 
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    margin-bottom: 18px;
+  }
+  .welcome-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .welcome-actions span {
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .primary {
+    background: linear-gradient(135deg, #143c5b, #1f6f8b);
+  }
+
+  #page5 .sheet {
+    margin-top: 10px;
+  }
+  #page5 .sheet th {
+    background: #244866;
+  }
+  #page5 .sheet input {
+    width: 100%;
+    padding: 6px 8px;
+  }
+  #page5 .sheet-row {
+    font-weight: 700;
+    text-align: center;
+    background: #eef2f7;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 900px) {
+    body { padding: 16px; }
+    #pages { padding: 16px; }
+    thead th { font-size: 11px; }
+    table { font-size: 12px; }
+  }
+  .page-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0 0 16px;
+  }
+  .page-nav button {
+    margin-top: 0;
+    padding: 8px 12px;
+    font-size: 12px;
+  }  .goods-received th {
+    background: #1f4e70;
+  }
+  /* Excel-like spreadsheet UI */
+  .excel-shell {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.15);
+  }
+  .excel-topbar {
+    background: #0f6c3f;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 14px;
+    font-weight: 700;
+    font-size: 14px;
+  }
+  .excel-tabs {
+    background: #e7f3ec;
+    padding: 6px 12px;
+    display: flex;
+    gap: 12px;
+    border-bottom: 1px solid #cfe3d7;
+    font-weight: 600;
+    font-size: 13px;
+    color: #185c37;
+  }
+  .excel-ribbon {
+    background: #f8fafc;
+    padding: 10px 12px;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+    border-bottom: 1px solid #e2e8f0;
+    font-size: 12px;
+    color: #64748b;
+  }
+  .ribbon-group {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 8px;
+  }
+  .excel-formula {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 8px;
+    padding: 8px 12px;
+    border-bottom: 1px solid #e2e8f0;
+    background: #ffffff;
+  }
+  .name-box,
+  .formula-box {
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 6px 8px;
+    font-size: 13px;
+    background: #ffffff;
+  }
+  .excel-grid-wrap {
+    overflow: auto;
+    max-height: 70vh;
+    background: #ffffff;
+  }
+  .excel-grid th,
+  .excel-grid td {
+    border: 1px solid #dfe3e8;
+    padding: 6px 8px;
+    font-size: 12px;
+  }
+  .excel-grid thead th {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: #f1f5f9;
+    text-align: center;
+    font-weight: 700;
+  }
+  .excel-grid .row-head {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    background: #f1f5f9;
+    text-align: center;
+    font-weight: 700;
+    width: 48px;
+  }
+  .excel-grid .corner {
+    position: sticky;
+    left: 0;
+    top: 0;
+    z-index: 3;
+    background: #e2e8f0;
+  }
+  .excel-grid input.sheet-cell {
+    width: 100%;
+    border: none;
+    padding: 0;
+    background: transparent;
+    font-size: 12px;
+  }
+  .excel-grid input.sheet-cell:focus {
+    outline: 2px solid #0f6c3f;
+    outline-offset: -2px;
+    background: #f2fbf6;
+  }
+  .sheet-tabs {
+    display: flex;
+    gap: 8px;
+    padding: 8px 12px;
+    border-top: 1px solid #e2e8f0;
+    background: #f8fafc;
+  }
+  .sheet-tabs span {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 12px;
+  }
+  .sheet-tabs .active {
+    background: #e7f3ec;
+    border-color: #cfe3d7;
+    color: #185c37;
+    font-weight: 700;
+  }
+  .goods-received th.product-name,
+  .goods-received td.product-name {
+    width: 260px;
+  }
+</style></head>
+<body>
+<div id="pages">
+        <div id="page0" class="welcome">
+            <h1>DZORWULU WAREHOUSE STOCK APP</h1>
+            <p>You're welcome Mr. FrimpLaelson. Use the password button to unlock, then choose a page.</p>
+                        <div class="nav-grid">
+                <button onclick="goToPage(1)">Balance Sheet</button>
+                <button onclick="goToPage(2)">Recording Sheet</button>
+                <button onclick="goToPage(3)">Counting Sheet</button>
+                <button onclick="goToPage(4)">Available Stock</button>
+                <button onclick="goToPage(5)">Excel Sheet</button>
+                <button onclick="goToPage(6)">Purchase Sheet</button>
+            </div>
+            <div class="welcome-actions">
+                <button onclick="setPassword()">Enter Password</button>
+                <span id="password-status">Locked</span>
+            </div>
+            <button class="primary" onclick="goToPage(1)">START</button>
+        </div>
+
+
+<!-- Page 1: Balance Sheet -->
+<div id="page1" style="display: none;">
+                <div class="page-nav">
+            <button onclick="goToPage(0)">Home</button>
+            <button onclick="goToPage(1)">Balance Sheet</button>
+            <button onclick="goToPage(2)">Recording Sheet</button>
+            <button onclick="goToPage(3)">Counting Sheet</button>
+            <button onclick="goToPage(4)">Available Stock</button>
+            <button onclick="goToPage(5)">Excel Sheet</button>
+            <button onclick="goToPage(6)">Purchase Sheet</button>
+        </div>
+<table>
+<thead>
+<tr>
+<th class="product-name">Product Name</th>
+<th>Opening Stock</th>
+<th>Goods Received</th>
+<th>Goods Returned</th>
+<th>Damaged Goods</th>
+<th>Goods Loaded</th>
+<th>Outstanding/ Balance</th>
+<th>Available Stock</th>
+<th>Remark</th>
+</tr>
+</thead>
+<tbody>
+<!-- 35 rows -->
+<script>
+const palletMultipliers = {
+  "VERNA SHRINK 500ML X 16": 140,
+  "VERNA SHRINK 500ML X 24": 84,
+  "VERNA SHRINK 500ML X 36": 63,
+  "VERNA SHRINK 750ML X 16": 96,
+  "VERNA ACTIVE SPORT WATER": 144,
+  "VERNA SHRINK 1.5L X 6": 96,
+  "VERNA JAR 5L X 4": 32,
+  "SLEMFIT WATER 500ML X 16": 140,
+  "VERNA JAR GALLONS 19L": 48,
+  "RUN BLUE ENERGY 350ML X16": 160,
+  "RUN ENERGY 500ML X12": 192,
+  "RUSH ENERGY 350ML X12": 240,
+  "VIM CHAMPAGNE ENERGY 500ML X12": 192,
+  "ROSA STILL WATER 1L X 12": 40,
+  "ROSA STILL WATER 330ML X12": 80,
+  "BIGOO COLA 350ML X 20": 144,
+  "BIGOO LEMONADE 350ML X 20": 144,
+  "BIGOO LEMONLIME 350ML X 20": 144,
+  "BIGOO APPLE 350ML X 20": 144,
+  "BIGOO GRAPES 350ML X 20": 144,
+  "BIGOO ORANGE 350ML X 20": 144,
+  "BIGOO COCONUT 350ML X 20": 144,
+  "BIGOO COCKTAIL 350ML X 20": 144,
+  "AMERICAN COLA 350ML X 16": 160,
+  "RASTA CH. MALT 500ML X 16": 192,
+  "RASTA CH. MALT 350ML X 16": 160,
+  "EASY SPORT ENERGY 500ML X 12": 192,
+  "CAN PLANET ORANGE 330ML X24": 104,
+  "CAN DR. MALT 330ML X24": 104,
+  "CAN CHALE SOURSOP 330ML X 24": 104,
+  "CAN BUBBLE UP TONIC 330ML X 24": 104,
+  "PLANET ORANGE 350ML X 16": 160,
+  "PLANET TROPICAL 350ML X 16": 160,
+  "PLANET COCKTAIL350ML X 16": 160,
+  "PLANET COCONUT 350ML X 16": 160
+};
+const items = [
+"VERNA SHRINK 500ML X 16",
+"VERNA SHRINK 500ML X 24",
+"VERNA SHRINK 500ML X 36",
+"VERNA SHRINK 750ML X 16",
+"VERNA ACTIVE SPORT WATER",
+"VERNA SHRINK 1.5L X 6",
+"VERNA JAR 5L X 4",
+"SLEMFIT WATER 500ML X 16",
+"VERNA JAR GALLONS 19L",
+"RUN BLUE ENERGY 350ML X16",
+"RUN ENERGY 500ML X12",
+"RUSH ENERGY 350ML X12",
+"VIM CHAMPAGNE ENERGY 500ML X12",
+"ROSA STILL WATER 1L X 12",
+"ROSA STILL WATER 330ML X12",
+"BIGOO COLA 350ML X 20",
+"BIGOO LEMONADE 350ML X 20",
+"BIGOO LEMONLIME 350ML X 20",
+"BIGOO APPLE 350ML X 20",
+"BIGOO GRAPES 350ML X 20",
+"BIGOO ORANGE 350ML X 20",
+"BIGOO COCONUT 350ML X 20",
+"BIGOO COCKTAIL 350ML X 20",
+"AMERICAN COLA 350ML X 16",
+"RASTA CH. MALT 500ML X 16",
+"RASTA CH. MALT 350ML X 16",
+"EASY SPORT ENERGY 500ML X 12",
+"CAN PLANET ORANGE 330ML X24",
+"CAN DR. MALT 330ML X24",
+"CAN CHALE SOURSOP 330ML X 24",
+"CAN BUBBLE UP TONIC 330ML X 24",
+"PLANET ORANGE 350ML X 16",
+"PLANET TROPICAL 350ML X 16",
+"PLANET COCKTAIL350ML X 16",
+"PLANET COCONUT 350ML X 16"
+];
+
+items.forEach((item, index) => {
+document.write(`
+<tr>
+<td>${item}</td>
+<td><input type="number" class="opening" data-row="${index}"></td>
+<td><input type="number" class="receive" data-row="${index}"></td>
+<td><input type="number" class="returns" data-row="${index}"></td>
+<td><input type="number" class="damaged" data-row="${index}"></td>
+<td><input type="number" class="loading" data-row="${index}" readonly></td>
+<td><input type="number" class="outstanding" data-row="${index}" readonly></td>
+<td><input type="number" class="closing-stock" data-row="${index}" readonly></td>
+<td><input type="number" class="remark" data-row="${index}" readonly></td>
+</tr>
+`);
+});
+</script>
+</tbody>
+</table>
+<button onclick="prevPage(0)">Previous Page</button>
+			<button onclick="nextPage(2)">Next Page</button>
+</div>
+                        <!-- Page 2: Recording Sheet -->
+        <div id="page2" style="display: none;">
+                <div class="page-nav">
+            <button onclick="goToPage(0)">Home</button>
+            <button onclick="goToPage(1)">Balance Sheet</button>
+            <button onclick="goToPage(2)">Recording Sheet</button>
+            <button onclick="goToPage(3)">Counting Sheet</button>
+            <button onclick="goToPage(4)">Available Stock</button>
+            <button onclick="goToPage(5)">Excel Sheet</button>
+            <button onclick="goToPage(6)">Purchase Sheet</button>
+        </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th class="wide-col">Item Name</th>
+                        <th class="wide-col">Total</th>
+                        <script>
+                            const page2Cols = 25;
+                            for (let i = 1; i <= page2Cols; i++) {
+                                document.write(`<th class="small-col">Col ${i + 1}</th>`);
+                            }
+                        </script>
+                    </tr>
+                </thead>
+                <tbody id="recording-body"></tbody>
+            </table>
+            <button onclick="prevPage(1)">Previous Page</button>
+            <button onclick="nextPage(3)">Next Page</button>
+        </div>        <!-- Page 3: Counting Sheet -->
+<div id="page3" style="display: none;">
+                <div class="page-nav">
+            <button onclick="goToPage(0)">Home</button>
+            <button onclick="goToPage(1)">Balance Sheet</button>
+            <button onclick="goToPage(2)">Recording Sheet</button>
+            <button onclick="goToPage(3)">Counting Sheet</button>
+            <button onclick="goToPage(4)">Available Stock</button>
+            <button onclick="goToPage(5)">Excel Sheet</button>
+            <button onclick="goToPage(6)">Purchase Sheet</button>
+        </div>
+<table>
+<thead>
+<tr>
+<th class="product-name">Product Name</th>
+<th>Pallets</th>
+<th>Fractions</th>
+<th>Total</th>
+</tr>
+</thead>
+<tbody id="counting-body"></tbody>
+</table>
+<button onclick="prevPage(2)">Previous Page</button>
+			<button onclick="nextPage(4)">Next Page</button>
+</div>
+<!-- Page 4: Available Stock -->
+<div id="page4" style="display: none;">
+                <div class="page-nav">
+            <button onclick="goToPage(0)">Home</button>
+            <button onclick="goToPage(1)">Balance Sheet</button>
+            <button onclick="goToPage(2)">Recording Sheet</button>
+            <button onclick="goToPage(3)">Counting Sheet</button>
+            <button onclick="goToPage(4)">Available Stock</button>
+            <button onclick="goToPage(5)">Excel Sheet</button>
+            <button onclick="goToPage(6)">Purchase Sheet</button>
+        </div>
+<table>
+<thead>
+<tr>
+<th class="product-name">Product Name</th>
+<th>Available Stock</th>
+</tr>
+</thead>
+<tbody id="available-body"></tbody>
+</table>
+<button onclick="prevPage(3)">Previous Page</button>
+			<button onclick="nextPage(5)">Next Page</button>
+</div>
+<!-- Page 5: Spreadsheet -->
+<div id="page5" style="display: none;">
+    <div class="page-nav">
+        <button onclick="goToPage(0)">Home</button>
+        <button onclick="goToPage(1)">Balance Sheet</button>
+        <button onclick="goToPage(2)">Recording Sheet</button>
+        <button onclick="goToPage(3)">Counting Sheet</button>
+        <button onclick="goToPage(4)">Available Stock</button>
+        <button onclick="goToPage(5)">Excel Sheet</button>
+        <button onclick="goToPage(6)">Purchase Sheet</button>
+    </div>
+    <div class="excel-shell">
+        <div class="excel-topbar">
+            <span>Budget_Q1.xlsx</span>
+            <span>Microsoft Excel</span>
+        </div>
+        <div class="excel-tabs">
+            <span>File</span>
+            <span>Home</span>
+            <span>Insert</span>
+            <span>Data</span>
+            <span>Review</span>
+            <span>View</span>
+        </div>
+        <div class="excel-ribbon">
+            <div class="ribbon-group">Clipboard</div>
+            <div class="ribbon-group">Font</div>
+            <div class="ribbon-group">Alignment</div>
+            <div class="ribbon-group">Number</div>
+        </div>
+        <div class="excel-formula">
+            <div class="name-box" id="name-box">A1</div>
+            <input class="formula-box" id="formula-bar" type="text" placeholder="Enter formula" />
+        </div>
+        <div class="excel-grid-wrap">
+            <table class="excel-grid" id="page5-sheet">
+                <thead>
+                    <tr>
+                        <th class="corner"></th>
+                        <th>A</th>
+                        <th>B</th>
+                        <th>C</th>
+                        <th>D</th>
+                        <th>E</th>
+                        <th>F</th>
+                        <th>G</th>
+                        <th>H</th>
+                        <th>I</th>
+                        <th>J</th>
+                        <th>K</th>
+                        <th>L</th>
+                        <th>M</th>
+                        <th>N</th>
+                        <th>O</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <script>
+                        const sheetRows = 25;
+                        const sheetCols = 15;
+                        for (let r = 1; r <= sheetRows; r++) {
+                            const cells = Array.from({ length: sheetCols }, (_, c) => {
+                                const colLetter = String.fromCharCode(65 + c);
+                                const addr = `${colLetter}${r}`;
+                                return `<td><input type=\"text\" class=\"sheet-cell\" data-cell=\"${addr}" placeholder=\"${addr}"></td>`;
+                            }).join('');
+                            document.write(`
+                                <tr>
+                                    <td class=\"row-head\">${r}</td>
+                                    ${cells}
+                                </tr>
+                            `);
+                        }
+                    </script>
+                </tbody>
+            </table>
+        </div>
+        <div class="sheet-tabs">
+            <span class="active">Sheet1</span>
+            <span>Sheet2</span>
+            <span>Sheet3</span>
+        </div>
+    </div>
+    <button onclick="prevPage(4)">Previous Page</button>
+    <button onclick="nextPage(6)">Next Page</button>
+</div>
+<!-- Page 6: Goods Received -->
+<div id="page6" style="display: none;">
+    <div class="page-nav">
+        <button onclick="goToPage(0)">Home</button>
+        <button onclick="goToPage(1)">Balance Sheet</button>
+        <button onclick="goToPage(2)">Recording Sheet</button>
+        <button onclick="goToPage(3)">Counting Sheet</button>
+        <button onclick="goToPage(4)">Available Stock</button>
+        <button onclick="goToPage(5)">Excel Sheet</button>
+        <button onclick="goToPage(6)">Purchase Sheet</button>
+    </div>
+    <table class="sheet goods-received">
+        <thead>
+            <tr>
+                <th>Date</th>
+	            <th>Product Name</th>
+                <th>Vehicle Number</th>
+                <th>Waybill Number</th>
+                <th>Pallets Received</th>
+                <th>Separators Received</th>
+                <th>Goods Received</th>
+                <th>Supplier</th>
+                <th>Quantity</th>
+                <th>Receiver</th>
+            </tr>
+        </thead>
+        <tbody>
+            <script>
+                const grRows = 35;
+                for (let r = 1; r <= grRows; r++) {
+                    document.write(`
+                        <tr>
+                            <td><input type="date"></td>
+                            <td><input type="text"></td>
+                            <td><input type="text"></td>
+                            <td><input type="number"></td>
+                            <td><input type="number"></td>
+                            <td><input type="text"></td>
+                            <td><input type="text"></td>
+                            <td><input type="number"></td>
+                            <td><input type="text"></td>
+                            <td class="product-name"><input type="text" list="product-list"></td>
+                        </tr>
+                    `);
+                }
+            </script>
+        </tbody>
+    </table>
+    <button onclick="prevPage(5)">Previous Page</button>
+    <button onclick="goToPage(0)">Back to Start</button>
+</div></div></div>
+<script src="script.js"></script>
+<script>
+const PASSWORD_HASH = "e5432c72bba2f0a7690ae937901ad895e287d710d9b9e646da9ec29c25d2e932";
+const PASSWORD_PLAIN = "Sabbath1813";
+const LOCKOUT_MS = 44 * 60 * 1000;
+const TIMEOUT_MS = 30 * 60 * 1000;
+const MAX_ATTEMPTS = 5;
+const STORAGE = (() => {
+  const mem = {};
+  return {
+    get(key) {
+      try {
+        return localStorage.getItem(key);
+      } catch (e) {
+        return Object.prototype.hasOwnProperty.call(mem, key) ? mem[key] : null;
+      }
+    },
+    set(key, value) {
+      try {
+        localStorage.setItem(key, value);
+      } catch (e) {
+        mem[key] = value;
+      }
+    },
+    remove(key) {
+      try {
+        localStorage.removeItem(key);
+      } catch (e) {
+        delete mem[key];
+      }
+    }
+  };
+})();
+let isUnlocked = false;
+
+function updatePasswordStatus() {
+  const status = document.getElementById('password-status');
+  if (!status) return;
+  status.textContent = isUnlocked ? 'Unlocked' : 'Locked';
+}
+
+function getLockoutUntil() {
+  return parseInt(STORAGE.get('lockoutUntil') || "0", 10);
+}
+
+function setLockoutUntil(ts) {
+  STORAGE.set('lockoutUntil', String(ts));
+}
+
+function getAttempts() {
+  return parseInt(STORAGE.get('failedAttempts') || "0", 10);
+}
+
+function setAttempts(n) {
+  STORAGE.set('failedAttempts', String(n));
+}
+
+function resetAttempts() {
+  STORAGE.remove('failedAttempts');
+}
+
+function getLastActivity() {
+  return parseInt(STORAGE.get('lastActivity') || "0", 10);
+}
+
+function setLastActivity(ts) {
+  STORAGE.set('lastActivity', String(ts));
+}
+
+function clearSession() {
+  isUnlocked = false;
+  updatePasswordStatus();
+}
+
+function checkTimeout() {
+  const last = getLastActivity();
+  if (isUnlocked && last && Date.now() - last > TIMEOUT_MS) {
+    clearSession();
+  }
+}
+
+async function hashPassword(value) {
+  const enc = new TextEncoder().encode(value);
+  const digest = await crypto.subtle.digest('SHA-256', enc);
+  return Array.from(new Uint8Array(digest)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function requirePassword() {
+  checkTimeout();
+  if (isUnlocked) {
+    setLastActivity(Date.now());
+    return true;
+  }
+  const lockoutUntil = getLockoutUntil();
+  if (lockoutUntil && Date.now() < lockoutUntil) {
+    const mins = Math.ceil((lockoutUntil - Date.now()) / 60000);
+    alert(`Locked. Try again in ${mins} minute(s).`);
+    return false;
+  }
+    const input = prompt('Enter password');
+  if (input === null) return false;
+  let ok = false;
+  if (window.crypto && window.crypto.subtle) {
+    const hash = await hashPassword(input);
+    ok = (hash === PASSWORD_HASH);
+  } else {
+    ok = (input === PASSWORD_PLAIN);
+  }
+  if (ok) {
+    isUnlocked = true;
+    resetAttempts();
+    setLastActivity(Date.now());
+    updatePasswordStatus();
+    return true;
+  }
+  const attempts = getAttempts() + 1;
+  setAttempts(attempts);
+  if (attempts >= MAX_ATTEMPTS) {
+    setLockoutUntil(Date.now() + LOCKOUT_MS);
+    alert('Too many attempts. Locked temporarily.');
+  } else {
+    alert('Incorrect password');
+  }
+  return false;
+}
+
+function setPassword() {
+  requirePassword();
+}
+
+function showPage(pageNumber) {
+  const pages = document.querySelectorAll('#pages > div');
+  pages.forEach(page => {
+    page.style.display = 'none';
+  });
+  const target = document.getElementById('page' + pageNumber);
+  if (target) {
+    target.style.display = 'block';
+  }
+}
+
+async function goToPage(pageNumber) {
+  if (!(await requirePassword())) {
+    return;
+  }
+  showPage(pageNumber);
+}
+
+async function nextPage(pageNumber) {
+  if (!(await requirePassword())) {
+    return;
+  }
+  showPage(pageNumber);
+}
+
+async function prevPage(pageNumber) {
+  if (!(await requirePassword())) {
+    return;
+  }
+  showPage(pageNumber);
+}
+
+function recalcRecordingRow(rowIndex) {
+  const figures = document.querySelectorAll(`.figure[data-row='${rowIndex}']`);
+  if (!figures.length) {
+    return;
+  }
+  let sum = 0;
+  figures.forEach(input => {
+    sum += toNumber(input.value);
+  });
+  const totalEl = document.querySelector(`.row-total[data-row='${rowIndex}']`);
+  if (totalEl) {
+    totalEl.value = sum;
+  }
+  const loadingEl = document.querySelector(`.loading[data-row='${rowIndex}']`);
+  if (loadingEl) {
+    loadingEl.value = sum;
+  }
+}
+function toNumber(value) {
+  const num = parseFloat(value);
+  return Number.isFinite(num) ? num : 0;
+}
+
+function recalcRow(rowIndex) {
+  const openingEl = document.querySelector(`.opening[data-row='${rowIndex}']`);
+  const receiveEl = document.querySelector(`.receive[data-row='${rowIndex}']`);
+  const returnsEl = document.querySelector(`.returns[data-row='${rowIndex}']`);
+  const damagedEl = document.querySelector(`.damaged[data-row='${rowIndex}']`);
+  const loadingEl = document.querySelector(`.loading[data-row='${rowIndex}']`);
+  const outstandingEl = document.querySelector(`.outstanding[data-row='${rowIndex}']`);
+  const remarkEl = document.querySelector(`.remark[data-row='${rowIndex}']`);
+
+  if (!outstandingEl || !remarkEl) {
+    return;
+  }
+
+  const opening = toNumber(openingEl ? openingEl.value : 0);
+  const receive = toNumber(receiveEl ? receiveEl.value : 0);
+  const returns = toNumber(returnsEl ? returnsEl.value : 0);
+  const damaged = toNumber(damagedEl ? damagedEl.value : 0);
+  const loading = toNumber(loadingEl ? loadingEl.value : 0);
+
+  const outstanding = opening + receive + returns - damaged - loading;
+  outstandingEl.value = outstanding;
+
+  const closingEl = document.querySelector(`.closing-stock[data-row="${rowIndex}"]`);
+  const closing = toNumber(closingEl ? closingEl.value : 0);
+  remarkEl.value = outstanding - closing;
+}
+
+function populateRecordingSheet() {
+  const body = document.getElementById('recording-body');
+  if (!body) return;
+  body.innerHTML = '';
+  items.forEach((item, index) => {
+    const smallCells = Array.from({ length: page2Cols }, () =>
+      `<td class="small-col">
+        <div class="cell-stack">
+          <input type="text" class="waybill-input" data-row="${index}">
+          <input type="number" class="figure" data-row="${index}">
+        </div>
+      </td>`
+    ).join('');
+    const totalCell = `<td class="wide-col"><input type="number" class="row-total" data-row="${index}" readonly></td>`;
+    body.insertAdjacentHTML('beforeend', `
+      <tr>
+        <td class="wide-col" rowspan="2">${item}</td>
+        ${totalCell}
+        ${smallCells}
+      </tr>
+      <tr>
+        ${smallCells}
+      </tr>
+    `);
+  });
+}
+function populateCountingSheet() {
+  const body = document.getElementById('counting-body');
+  if (!body) return;
+  body.innerHTML = '';
+  items.forEach((item, index) => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${item}</td>
+      <td><input type="number" class="pallets" data-row="${index}"></td>
+      <td><input type="text" inputmode="numeric" class="fractions" data-row="${index}"></td>
+      <td><input type="number" class="counting-total" data-row="${index}" readonly></td>
+    `;
+    body.appendChild(row);
+  });
+}
+function populateAvailableStock() {
+  const body = document.getElementById('available-body');
+  if (!body) return;
+  body.innerHTML = '';
+  items.forEach((item, index) => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${item}</td>
+      <td><input type="number" class="available-stock" data-row="${index}" readonly></td>
+    `;
+    body.appendChild(row);
+  });
+}
+function recalcCountingRow(rowIndex) {
+  const palletsEl = document.querySelector(`.pallets[data-row='${rowIndex}']`);
+  const fractionsEl = document.querySelector(`.fractions[data-row='${rowIndex}']`);
+  const totalEl = document.querySelector(`.counting-total[data-row='${rowIndex}']`);
+  if (!totalEl) return;
+  const itemName = items[rowIndex] || '';
+  const multiplier = palletMultipliers[itemName] || 0;
+  const pallets = toNumber(palletsEl ? palletsEl.value : 0);
+  const fractionsRaw = fractionsEl ? String(fractionsEl.value || '') : '';
+  const fractions = toNumber(fractionsRaw.replace(/[^0-9.-]/g, ''));
+  totalEl.value = (pallets * multiplier) + fractions;
+}
+function recalcAvailability(rowIndex) {
+  const totalEl = document.querySelector(`.counting-total[data-row='${rowIndex}']`);
+  if (!totalEl) {
+    return;
+  }
+  const total = toNumber(totalEl.value);
+  const closingEl = document.querySelector(`.closing-stock[data-row="${rowIndex}"]`);
+  if (closingEl) {
+    closingEl.value = total;
+  }
+  const availableEl = document.querySelector(`.available-stock[data-row="${rowIndex}"]`);
+  if (availableEl) {
+    availableEl.value = total;
+  }
+}
+
+
+document.addEventListener('input', (event) => {
+  const target = event.target;
+  if (!(target instanceof HTMLInputElement)) {
+    return;
+  }
+  const rowIndex = target.dataset.row;
+  if (!rowIndex) {
+    return;
+  }
+  recalcRecordingRow(rowIndex);
+  recalcRow(rowIndex);
+  recalcCountingRow(rowIndex);
+  recalcAvailability(rowIndex);
+});
+
+window.addEventListener('load', () => {
+  populateRecordingSheet();
+  populateAvailableStock();
+  populateCountingSheet();
+  resetActivityHandlers();
+  attachSpreadsheetHandlers();
+  updatePasswordStatus();
+  showPage(0);
+  const rows = document.querySelectorAll('.opening[data-row]');
+  rows.forEach(input => recalcRow(input.dataset.row));
+  const recordRows = document.querySelectorAll('.row-total[data-row]');
+  recordRows.forEach(input => recalcRecordingRow(input.dataset.row));
+  const countRows = document.querySelectorAll('.counting-total[data-row]');
+  countRows.forEach(input => {
+    recalcCountingRow(input.dataset.row);
+    recalcAvailability(input.dataset.row);
+  });
+});
+
+function evalSpreadsheetCell(cell, visited) {
+  const addr = cell.dataset.cell;
+  if (!addr) return '';
+  if (visited.has(addr)) return '#CYCLE!';
+  visited.add(addr);
+  const raw = cell.dataset.formula || cell.value || '';
+  if (!raw || raw[0] !== '=') {
+    const num = parseFloat(raw);
+    visited.delete(addr);
+    return Number.isFinite(num) ? num : raw;
+  }
+  const expr = raw.slice(1);
+  const value = evalSpreadsheet(expr, visited);
+  visited.delete(addr);
+  return value;
+}
+
+function splitArgs(args) {
+  const result = [];
+  let current = '';
+  let depth = 0;
+  let quote = '';
+  for (let i = 0; i < args.length; i++) {
+    const ch = args[i];
+    if (quote) {
+      current += ch;
+      if (ch === quote && args[i - 1] !== '\\') {
+        quote = '';
+      }
+      continue;
+    }
+    if (ch === '"' || ch === "'") {
+      quote = ch;
+      current += ch;
+      continue;
+    }
+    if (ch === '(') depth++;
+    if (ch === ')') depth--;
+    if (ch === ',' && depth === 0) {
+      result.push(current.trim());
+      current = '';
+    } else {
+      current += ch;
+    }
+  }
+  if (current.trim().length) result.push(current.trim());
+  return result;
+}
+
+function getCellByAddr(addr) {
+  return document.querySelector(`.sheet-cell[data-cell='${addr}']`);
+}
+
+function isNumber(val) {
+  return typeof val === 'number' && Number.isFinite(val);
+}
+
+function parseValue(token, visited) {
+  const t = token.trim();
+  if (!t) return '';
+  if ((t.startsWith('"') && t.endsWith('"')) || (t.startsWith("'") && t.endsWith("'"))) {
+    return t.slice(1, -1);
+  }
+  if (/^[A-O]\d+$/.test(t)) {
+    const cell = getCellByAddr(t);
+    if (!cell) return 0;
+    return evalSpreadsheetCell(cell, visited);
+  }
+  const num = parseFloat(t);
+  if (Number.isFinite(num)) return num;
+  return t;
+}
+
+function getRangeAddrs(rangeStr) {
+  const m = rangeStr.match(/^([A-O])(\d+):([A-O])(\d+)$/);
+  if (!m) return [];
+  const startCol = m[1].charCodeAt(0);
+  const startRow = parseInt(m[2], 10);
+  const endCol = m[3].charCodeAt(0);
+  const endRow = parseInt(m[4], 10);
+  const cols = [Math.min(startCol, endCol), Math.max(startCol, endCol)];
+  const rows = [Math.min(startRow, endRow), Math.max(startRow, endRow)];
+  const addrs = [];
+  for (let c = cols[0]; c <= cols[1]; c++) {
+    for (let r = rows[0]; r <= rows[1]; r++) {
+      addrs.push(String.fromCharCode(c) + r);
+    }
+  }
+  return addrs;
+}
+
+function getRangeValues(rangeStr, visited) {
+  const addrs = getRangeAddrs(rangeStr);
+  return addrs.map(addr => {
+    const cell = getCellByAddr(addr);
+    const val = cell ? evalSpreadsheetCell(cell, visited) : 0;
+    return val;
+  });
+}
+
+function parseCriteria(criteriaRaw) {
+  const raw = criteriaRaw.trim();
+  const ops = ['>=', '<=', '<>', '>', '<', '='];
+  for (const op of ops) {
+    if (raw.startsWith(op)) {
+      return { op, value: raw.slice(op.length).trim() };
+    }
+  }
+  return { op: '=', value: raw };
+}
+
+function matchesCriteria(value, criteria) {
+  const valNum = parseFloat(value);
+  const critNum = parseFloat(criteria.value);
+  const valIsNum = Number.isFinite(valNum);
+  const critIsNum = Number.isFinite(critNum);
+  const left = valIsNum ? valNum : String(value).trim();
+  const right = critIsNum ? critNum : String(criteria.value).replace(/^['"]|['"]$/g, '').trim();
+
+  switch (criteria.op) {
+    case '>': return valIsNum && critIsNum ? left > right : String(left) > String(right);
+    case '<': return valIsNum && critIsNum ? left < right : String(left) < String(right);
+    case '>=': return valIsNum && critIsNum ? left >= right : String(left) >= String(right);
+    case '<=': return valIsNum && critIsNum ? left <= right : String(left) <= String(right);
+    case '<>': return left !== right;
+    case '=':
+    default: return left === right;
+  }
+}
+
+function evalFunction(name, args, visited) {
+  const upper = name.toUpperCase();
+  if (upper === 'SUM' || upper === 'AVERAGE' || upper === 'MIN' || upper === 'MAX') {
+    let nums = [];
+    args.forEach(arg => {
+      if (/^[A-O]\d+:[A-O]\d+$/.test(arg)) {
+        getRangeValues(arg, visited).forEach(v => {
+          const n = parseFloat(v);
+          if (Number.isFinite(n)) nums.push(n);
+        });
+      } else {
+        const v = parseValue(arg, visited);
+        const n = parseFloat(v);
+        if (Number.isFinite(n)) nums.push(n);
+      }
+    });
+    if (!nums.length) return 0;
+    if (upper === 'SUM') return nums.reduce((a, b) => a + b, 0);
+    if (upper === 'AVERAGE') return nums.reduce((a, b) => a + b, 0) / nums.length;
+    if (upper === 'MIN') return Math.min(...nums);
+    if (upper === 'MAX') return Math.max(...nums);
+  }
+
+  if (upper === 'IF') {
+    const cond = args[0] || '';
+    const trueVal = args[1] || '';
+    const falseVal = args[2] || '';
+    const condResult = evalSpreadsheet(cond, visited);
+    const ok = (typeof condResult === 'number') ? condResult !== 0 : Boolean(condResult && condResult !== '0');
+    return ok ? parseValue(trueVal, visited) : parseValue(falseVal, visited);
+  }
+
+  if (upper === 'SUMIF' || upper === 'COUNTIF') {
+    const range = args[0] || '';
+    const criteriaArg = args[1] || '';
+    const sumRange = args[2] || range;
+    const criteria = parseCriteria(String(parseValue(criteriaArg, visited)));
+    const rangeVals = /^[A-O]\d+:[A-O]\d+$/.test(range) ? getRangeValues(range, visited) : [parseValue(range, visited)];
+    const sumVals = /^[A-O]\d+:[A-O]\d+$/.test(sumRange) ? getRangeValues(sumRange, visited) : [parseValue(sumRange, visited)];
+    let sum = 0;
+    let count = 0;
+    for (let i = 0; i < rangeVals.length; i++) {
+      if (matchesCriteria(rangeVals[i], criteria)) {
+        count++;
+        const n = parseFloat(sumVals[i] ?? rangeVals[i]);
+        if (Number.isFinite(n)) sum += n;
+      }
+    }
+    return upper === 'SUMIF' ? sum : count;
+  }
+
+  if (upper === 'VLOOKUP') {
+    const lookup = parseValue(args[0] || '', visited);
+    const table = args[1] || '';
+    const colIndex = parseInt(parseValue(args[2] || '1', visited), 10);
+    const rangeLookupRaw = args[3] ? String(parseValue(args[3], visited)).toUpperCase() : 'FALSE';
+    const rangeLookup = rangeLookupRaw === 'TRUE' || rangeLookupRaw === '1';
+    const addrs = getRangeAddrs(table);
+    if (!addrs.length || !colIndex || colIndex < 1) return '#N/A';
+    const start = table.split(':')[0];
+    const end = table.split(':')[1];
+    const startCol = start[0].charCodeAt(0);
+    const startRow = parseInt(start.slice(1), 10);
+    const endCol = end[0].charCodeAt(0);
+    const endRow = parseInt(end.slice(1), 10);
+    const cols = [Math.min(startCol, endCol), Math.max(startCol, endCol)];
+    const rows = [Math.min(startRow, endRow), Math.max(startRow, endRow)];
+    const firstCol = cols[0];
+    const targetCol = firstCol + (colIndex - 1);
+    if (targetCol > cols[1]) return '#N/A';
+
+    let bestRow = null;
+    let bestVal = null;
+    for (let r = rows[0]; r <= rows[1]; r++) {
+      const keyAddr = String.fromCharCode(firstCol) + r;
+      const keyCell = getCellByAddr(keyAddr);
+      const keyVal = keyCell ? evalSpreadsheetCell(keyCell, visited) : '';
+      if (!rangeLookup) {
+        if (String(keyVal) === String(lookup)) {
+          const outAddr = String.fromCharCode(targetCol) + r;
+          const outCell = getCellByAddr(outAddr);
+          return outCell ? evalSpreadsheetCell(outCell, visited) : '#N/A';
+        }
+      } else {
+        const keyNum = parseFloat(keyVal);
+        const lookupNum = parseFloat(lookup);
+        if (Number.isFinite(keyNum) && Number.isFinite(lookupNum) && keyNum <= lookupNum) {
+          if (bestVal === null || keyNum > bestVal) {
+            bestVal = keyNum;
+            bestRow = r;
+          }
+        }
+      }
+    }
+    if (rangeLookup && bestRow !== null) {
+      const outAddr = String.fromCharCode(targetCol) + bestRow;
+      const outCell = getCellByAddr(outAddr);
+      return outCell ? evalSpreadsheetCell(outCell, visited) : '#N/A';
+    }
+    return '#N/A';
+  }
+
+  if (upper === 'ROUND') {
+    const num = parseFloat(parseValue(args[0] || '0', visited));
+    const digits = parseInt(parseValue(args[1] || '0', visited), 10) || 0;
+    const factor = Math.pow(10, digits);
+    return Math.round(num * factor) / factor;
+  }
+
+  if (upper === 'ABS') {
+    const num = parseFloat(parseValue(args[0] || '0', visited));
+    return Math.abs(num);
+  }
+
+  if (upper === 'TEXT') {
+    const val = parseValue(args[0] || '', visited);
+    const fmtRaw = String(parseValue(args[1] || '', visited));
+    const m = fmtRaw.match(/0\.(0+)/);
+    if (m) {
+      const decimals = m[1].length;
+      const num = parseFloat(val);
+      if (Number.isFinite(num)) return num.toFixed(decimals);
+    }
+    return String(val);
+  }
+
+  if (upper === 'LEFT' || upper === 'RIGHT') {
+    const text = String(parseValue(args[0] || '', visited));
+    const count = parseInt(parseValue(args[1] || '0', visited), 10) || 0;
+    if (upper === 'LEFT') return text.slice(0, count);
+    return text.slice(text.length - count);
+  }
+
+  if (upper === 'CONCAT') {
+    return args.map(a => String(parseValue(a, visited))).join('');
+  }
+
+  return '#ERROR!';
+}
+
+function evalSpreadsheet(expr, visited) {
+  let working = expr.trim();
+
+  // Evaluate functions from inner to outer
+  while (true) {
+    const match = working.match(/\b([A-Z]+)\s*\(/i);
+    if (!match) break;
+    const name = match[1];
+    const start = working.indexOf(match[0]) + match[0].length - 1;
+    let depth = 0;
+    let end = -1;
+    for (let i = start; i < working.length; i++) {
+      if (working[i] === '(') depth++;
+      if (working[i] === ')') {
+        depth--;
+        if (depth === 0) { end = i; break; }
+      }
+    }
+    if (end === -1) return '#ERROR!';
+    const inner = working.slice(start + 1, end);
+    const args = splitArgs(inner);
+    const result = evalFunction(name, args, visited);
+    const replacement = (typeof result === 'string') ? JSON.stringify(result) : String(result);
+    working = working.slice(0, match.index) + replacement + working.slice(end + 1);
+  }
+
+  // Replace cell references
+  working = working.replace(/\b([A-O])(\d+)\b/g, (m, col, row) => {
+    const addr = `${col}${row}`;
+    const cell = getCellByAddr(addr);
+    if (!cell) return '0';
+    const v = evalSpreadsheetCell(cell, visited);
+    if (typeof v === 'string') return JSON.stringify(v);
+    const num = parseFloat(v);
+    return Number.isFinite(num) ? String(num) : '0';
+  });
+
+  // Allow only safe characters
+  if (!/^[0-9+\-*/().,\s"'\\]+$/.test(working)) {
+    return '#ERROR!';
+  }
+
+  try {
+    return Function(`return (${working});`)();
+  } catch (e) {
+    return '#ERROR!';
+  }
+}
+
+function recalcSpreadsheet() {
+  const cells = document.querySelectorAll('.sheet-cell');
+  cells.forEach(cell => {
+    const formula = cell.dataset.formula || '';
+    if (formula && formula[0] === '=') {
+      const result = evalSpreadsheet(formula.slice(1), new Set());
+      cell.dataset.calc = result;
+      if (document.activeElement !== cell) {
+        cell.value = String(result);
+      }
+    } else {
+      cell.dataset.calc = '';
+    }
+  });
+}
+function attachSpreadsheetHandlers() {
+  const sheet = document.getElementById('page5-sheet');
+  if (!sheet) return;
+  sheet.addEventListener('focusin', (event) => {
+    const target = event.target;
+    if (target instanceof HTMLInputElement && target.classList.contains('sheet-cell')) {
+      if (target.dataset.formula) {
+        target.value = target.dataset.formula;
+      }
+    }
+  });
+  sheet.addEventListener('focusout', (event) => {
+    const target = event.target;
+    if (target instanceof HTMLInputElement && target.classList.contains('sheet-cell')) {
+      const raw = target.value || '';
+      if (raw[0] === '=') {
+        target.dataset.formula = raw;
+      } else {
+        target.dataset.formula = '';
+      }
+      recalcSpreadsheet();
+    }
+  });
+  sheet.addEventListener('input', (event) => {
+    const target = event.target;
+    if (target instanceof HTMLInputElement && target.classList.contains('sheet-cell')) {
+      const raw = target.value || '';
+      if (raw[0] === '=') {
+        target.dataset.formula = raw;
+      } else {
+        target.dataset.formula = '';
+      }
+      recalcSpreadsheet();
+    }
+  });
+  recalcSpreadsheet();
+}
+
+function resetActivityHandlers() {
+  const mark = () => setLastActivity(Date.now());
+  ['click', 'keydown', 'input', 'mousemove', 'touchstart'].forEach(evt => {
+    document.addEventListener(evt, mark, { passive: true });
+  });
+}
+</script>
+<datalist id="product-list">
+  <option value="VERNA SHRINK 500ML X 16"></option>
+  <option value="VERNA SHRINK 500ML X 24"></option>
+  <option value="VERNA SHRINK 500ML X 36"></option>
+  <option value="VERNA SHRINK 750ML X 16"></option>
+  <option value="VERNA ACTIVE SPORT WATER"></option>
+  <option value="VERNA SHRINK 1.5L X 6"></option>
+  <option value="VERNA JAR 5L X 4"></option>
+  <option value="SLEMFIT WATER 500ML X 16"></option>
+  <option value="VERNA JAR GALLONS 19L"></option>
+  <option value="RUN BLUE ENERGY 350ML X16"></option>
+  <option value="RUN ENERGY 500ML X12"></option>
+  <option value="RUSH ENERGY 350ML X12"></option>
+  <option value="VIM CHAMPAGNE ENERGY 500ML X12"></option>
+  <option value="ROSA STILL WATER 1L X 12"></option>
+  <option value="ROSA STILL WATER 330ML X12"></option>
+  <option value="BIGOO COLA 350ML X 20"></option>
+  <option value="BIGOO LEMONADE 350ML X 20"></option>
+  <option value="BIGOO LEMONLIME 350ML X 20"></option>
+  <option value="BIGOO APPLE 350ML X 20"></option>
+  <option value="BIGOO GRAPES 350ML X 20"></option>
+  <option value="BIGOO ORANGE 350ML X 20"></option>
+  <option value="BIGOO COCONUT 350ML X 20"></option>
+  <option value="BIGOO COCKTAIL 350ML X 20"></option>
+  <option value="AMERICAN COLA 350ML X 16"></option>
+  <option value="RASTA CH. MALT 500ML X 16"></option>
+  <option value="RASTA CH. MALT 350ML X 16"></option>
+  <option value="EASY SPORT ENERGY 500ML X 12"></option>
+  <option value="CAN PLANET ORANGE 330ML X24"></option>
+  <option value="CAN DR. MALT 330ML X24"></option>
+  <option value="CAN CHALE SOURSOP 330ML X 24"></option>
+  <option value="CAN BUBBLE UP TONIC 330ML X 24"></option>
+  <option value="PLANET ORANGE 350ML X 16"></option>
+  <option value="PLANET TROPICAL 350ML X 16"></option>
+  <option value="PLANET COCKTAIL350ML X 16"></option>
+  <option value="PLANET COCONUT 350ML X 16"></option>
+</datalist>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
